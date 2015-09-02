@@ -1,7 +1,7 @@
 <?php 
 require_once "breadcrumbs.php";
 ?>
-<div class="button-group-wrapper text-right">
+<div class="button-group-wrapper text-right" data-spy="affix" data-offset-top="66">
 	<strong>Order by:</strong>
 	<div class="btn-group btn-group-sm" data-toggle="buttons">
 		<label class="btn btn-default active">
@@ -18,7 +18,7 @@ require_once "breadcrumbs.php";
 <script>
 	var list_group_content;
 	$(function(){
-		
+
 		function itemsToObject($items_object){
 			var result = []; 
 			$.each($items_object, function (index, item) {

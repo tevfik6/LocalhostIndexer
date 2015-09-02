@@ -73,15 +73,39 @@
 			}
 			.button-group-wrapper{
 				margin-bottom:15px;
+				background-color: #fff;
+				z-index:9999;
 			}
 			.button-group-label{
 				font-size: 15px;
+			}
+			.button-group-wrapper.affix{
+				top:0px;
+				padding:10px 0;
+				border-bottom:1px solid #ccc;
 			}
 			.button-group-wrapper .btn .glyphicon{
 				display:none;
 			}
 			.button-group-wrapper .btn.active .glyphicon{
 				display:inline-block;
+			}
+
+
+			@media (min-width: 768px) {
+				.button-group-wrapper.affix {
+					width: 720px;
+				}
+			}
+			@media (min-width: 992px) {
+				.button-group-wrapper.affix {
+					width: 940px;
+				}
+			}
+			@media (min-width: 1200px) {
+				.button-group-wrapper.affix {
+					width: 1140px;
+				}
 			}
 		</style>
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
