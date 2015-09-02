@@ -9,8 +9,13 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 		<title>Sugar Localhost Indexer</title>
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		
 		<!-- Bootstrap core CSS -->
 		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
 		<style>
 			body {
 				padding-top: 20px;
@@ -66,6 +71,18 @@
 			.list-group-header{
 				font-weight: bold;
 			}
+			.button-group-wrapper{
+				margin-bottom:15px;
+			}
+			.button-group-label{
+				font-size: 15px;
+			}
+			.button-group-wrapper .btn .glyphicon{
+				display:none;
+			}
+			.button-group-wrapper .btn.active .glyphicon{
+				display:inline-block;
+			}
 		</style>
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
@@ -80,7 +97,6 @@
 		<!-- Bootstrap core JavaScript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
-		<script src="assets/js/jquery.min.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
+		
 	</body>
 </html>
