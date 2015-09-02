@@ -25,7 +25,6 @@
 				margin-bottom: 20px;
 			}
 
-
 			.file_folder_size{
 				display:inline-block;
 				margin-left:15px;
@@ -70,18 +69,23 @@
 			}
 			.list-group-header{
 				font-weight: bold;
+				z-index:9999;
+			}
+			.list-group-header.affix{
+				top:60px;
 			}
 			.button-group-wrapper{
-				margin-bottom:15px;
+				margin-bottom:10px;
+				display:inline-block;
 				background-color: #fff;
-				z-index:9999;
+				z-index:9998;
 			}
 			.button-group-label{
 				font-size: 15px;
 			}
 			.button-group-wrapper.affix{
 				top:0px;
-				padding:10px 0;
+				padding:10px 0 50px;
 				border-bottom:1px solid #ccc;
 			}
 			.button-group-wrapper .btn .glyphicon{
@@ -91,18 +95,20 @@
 				display:inline-block;
 			}
 
-
 			@media (min-width: 768px) {
+				.list-group-header.affix,
 				.button-group-wrapper.affix {
 					width: 720px;
 				}
 			}
 			@media (min-width: 992px) {
+				.list-group-header.affix,
 				.button-group-wrapper.affix {
 					width: 940px;
 				}
 			}
 			@media (min-width: 1200px) {
+				.list-group-header.affix,
 				.button-group-wrapper.affix {
 					width: 1140px;
 				}

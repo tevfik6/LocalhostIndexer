@@ -1,18 +1,26 @@
 <?php 
 require_once "breadcrumbs.php";
 ?>
-<div class="button-group-wrapper text-right" data-spy="affix" data-offset-top="66">
-	<strong>Order by:</strong>
-	<div class="btn-group btn-group-sm" data-toggle="buttons">
-		<label class="btn btn-default active">
-			<input type="radio" name="order_by" id="option_name" value="name" checked> Name <span class="glyphicon glyphicon-sort-by-attributes"></span><span class="glyphicon glyphicon-sort-by-attributes-alt hide"></span>
-		</label>
-		<label class="btn btn-default sugar-btn">
-			<input type="radio" name="order_by" id="option_sugar_versions" value="sugar_versions"> Sugar Versions <span class="glyphicon glyphicon-sort-by-attributes"></span><span class="glyphicon glyphicon-sort-by-attributes-alt hide"></span>
-		</label>
-		<label class="btn btn-default">
-			<input type="radio" name="order_by" id="option_last_modified" value="last_modified"> Last Modified <span class="glyphicon glyphicon-sort-by-attributes hide"></span><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
-		</label>
+<div class="button-group-wrapper" data-spy="affix" data-offset-top="66">
+	<div class="col-xs-4">
+		<div class="input-group">
+			<div class="input-group-addon"><span class="glyphicon glyphicon-search" style="margin-right:0px"></span></div>
+			<input type="text" class="form-control" id="search" placeholder="Keyword">
+		</div>
+	</div>
+	<div class="col-xs-4 col-xs-offset-4">
+		<strong>Order by:</strong>
+		<div class="btn-group btn-group-sm" data-toggle="buttons">
+			<label class="btn btn-default active">
+				<input type="radio" name="order_by" id="option_name" value="name" checked> Name <span class="glyphicon glyphicon-sort-by-attributes"></span><span class="glyphicon glyphicon-sort-by-attributes-alt hide"></span>
+			</label>
+			<label class="btn btn-default sugar-btn">
+				<input type="radio" name="order_by" id="option_sugar_versions" value="sugar_versions"> Sugar Versions <span class="glyphicon glyphicon-sort-by-attributes"></span><span class="glyphicon glyphicon-sort-by-attributes-alt hide"></span>
+			</label>
+			<label class="btn btn-default">
+				<input type="radio" name="order_by" id="option_last_modified" value="last_modified"> Last Modified <span class="glyphicon glyphicon-sort-by-attributes hide"></span><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+			</label>
+		</div>
 	</div>
 </div>
 <script>
@@ -133,9 +141,20 @@ require_once "breadcrumbs.php";
 				$(".list-group .list-group-item").last().after(item.obj);
 			});
 		});
+
+		$('.button-group-wrapper').on('affix.bs.affix', function () {
+			console.log("affix!");
+			$('.main-container').css("margin-top", '110px');
+			$(".list-group-header").addClass("affix");
+		}).on('affix-top.bs.affix', function () {
+			console.log("affix top!");
+			$(".main-container").removeAttr("style");
+			$(".list-group-header").removeClass("affix");
+
+		});
 	});
 </script>
-<div class="list-group">
+<div class="list-group main-container">
 
 
 <?php
