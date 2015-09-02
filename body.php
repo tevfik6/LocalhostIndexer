@@ -45,6 +45,11 @@ require_once "breadcrumbs.php";
 					itemObj.sugar_version = $sugar.find(".version").attr("data");
 					itemObj.sugar_flavor = $sugar.find(".flavor").html();
 					itemObj.sugar_build = $sugar.find(".build").html();
+					
+					itemObj.sugar = {};
+					itemObj.sugar.version = $sugar.find(".version").html();
+					itemObj.sugar.flavor = $sugar.find(".flavor").html();
+					itemObj.sugar.build = $sugar.find(".build").html();
 				}
 				result.push(itemObj);
 			});
@@ -52,7 +57,7 @@ require_once "breadcrumbs.php";
 		}
 		
 		var list_group_object = itemsToObject($(".list-group").find(".list-group-item").not('.list-group-header'));
-		// console.log(list_group_object);
+		console.log(list_group_object);
 		
 		function sort_by_date(a, b){
 			var aRep = a.mtime;
@@ -82,12 +87,17 @@ require_once "breadcrumbs.php";
 			return 0;
 		}
 
-		function sort_array(arr, sortFunction){
-			var sorted_array = [];
-			$.each(arr, function (index, elem) {
-				sorted_array[index] = elem;
-			});
+		function sort_by_found_score(a, b){
+			var aRep = a.found_score;
+			var bRep = b.found_score;
+			if (aRep > bRep) return 1;
+			if (aRep < bRep) return -1;
+			return 0;
+		}
 
+		function sort_array(arr, sortFunction){
+			// var sorted_array = arr.slice();
+			var sorted_array = $.extend(true, [], arr);
 			sortFunction = typeof sortFunction !== 'undefined' && sorted_array.sort(sortFunction);
 			return sorted_array;
 		}
@@ -136,21 +146,73 @@ require_once "breadcrumbs.php";
 			}
 
 			if(reversed) sorted_list_group_object.reverse();
+			var print_list_group_object = search_keyword($("#search").val());
+			
 			$(".list-group").find(".list-group-item:not(.list-group-header)").remove();
-			$.each(sorted_list_group_object, function (index, item) {
+			$.each(print_list_group_object, function (index, item) {
 				$(".list-group .list-group-item").last().after(item.obj);
 			});
 		});
 
 		$('.button-group-wrapper').on('affix.bs.affix', function () {
-			console.log("affix!");
 			$('.main-container').css("margin-top", '110px');
 			$(".list-group-header").addClass("affix");
 		}).on('affix-top.bs.affix', function () {
-			console.log("affix top!");
 			$(".main-container").removeAttr("style");
 			$(".list-group-header").removeClass("affix");
+		});
 
+
+		function search_keyword (keywords) {
+			var search_list_group_object = sort_array(sorted_list_group_object);
+			
+			var splited_keywords = keywords.split(' ');
+			$.each(splited_keywords, function (i, keyword) {
+				var re = new RegExp(keyword, 'gi');
+				$.each(search_list_group_object, function (index, item) {
+					// console.log("keyword", keyword, "re_file_name:", re_file_name, "re_sugar_version:", re_sugar_version, "re_sugar_flavor:", re_sugar_flavor, item);
+					var re_file_name = item.file_name.match(re);
+					var re_sugar_version = (typeof item.sugar !== 'undefined' ? item.sugar.version.match(re) : false);
+					var re_sugar_flavor = (typeof item.sugar !== 'undefined' ? item.sugar.flavor.match(re) : false);
+					
+					if(typeof search_list_group_object[index].found_score === 'undefined'){
+						search_list_group_object[index].found_score = 0;
+					}
+
+					if(re_file_name || re_sugar_version || re_sugar_flavor){
+						// console.log("%c#FOUND:", "color:green;", "keyword", keyword, "re_file_name:", re_file_name, "re_sugar_version:", re_sugar_version, "re_sugar_flavor:", re_sugar_flavor, item);
+						if(re_file_name)
+							search_list_group_object[index].found_score += 5;
+						if(re_sugar_version)
+							search_list_group_object[index].found_score += 3;
+						if(re_sugar_flavor)
+							search_list_group_object[index].found_score++;
+					}
+				});
+			});
+
+
+			var clear_search_list_group_object = [];
+			$.each(search_list_group_object, function (index, item) {
+				if(item.found_score != 0) { 
+					clear_search_list_group_object.push(item);
+				}
+			});
+
+			clear_search_list_group_object = sort_array(clear_search_list_group_object, sort_by_found_score);
+			clear_search_list_group_object.reverse();
+			// console.log(clear_search_list_group_object);
+			return clear_search_list_group_object;
+		}
+
+		$("#search").on("keyup", function(event){
+			console.log("%c#search Keypressed:", "color:orange;", $(this).val());
+			var print_list_group_object = search_keyword($(this).val());
+			
+			$(".list-group").find(".list-group-item:not(.list-group-header)").remove();
+			$.each(print_list_group_object, function (index, item) {
+				$(".list-group .list-group-item").last().after(item.obj);
+			});
 		});
 	});
 </script>
