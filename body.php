@@ -8,7 +8,7 @@ require_once "breadcrumbs.php";
 			<input type="text" class="form-control" id="search" placeholder="Keyword">
 		</div>
 	</div>
-	<div class="col-xs-4 col-xs-offset-4">
+	<div class="col-xs-4 col-xs-offset-4 text-right">
 		<strong>Order by:</strong>
 		<div class="btn-group btn-group-sm" data-toggle="buttons">
 			<label class="btn btn-default active">
@@ -146,7 +146,10 @@ require_once "breadcrumbs.php";
 			}
 
 			if(reversed) sorted_list_group_object.reverse();
-			var print_list_group_object = search_keyword($("#search").val());
+			if($.trim($("#search").val()) != "")
+				var print_list_group_object = search_keyword($("#search").val());
+			else
+				var print_list_group_object = sorted_list_group_object;
 			
 			$(".list-group").find(".list-group-item:not(.list-group-header)").remove();
 			$.each(print_list_group_object, function (index, item) {
@@ -213,6 +216,8 @@ require_once "breadcrumbs.php";
 			$.each(print_list_group_object, function (index, item) {
 				$(".list-group .list-group-item").last().after(item.obj);
 			});
+
+			$(".button-group-wrapper .btn input:checked").parents("btn").trigger("click");
 		});
 	});
 </script>
