@@ -14,7 +14,7 @@ DirectoryIndex LocalhostIndexer/index.php
     Options +FollowSymLinks
     RewriteEngine On
 
-	RewriteRule ^(assets/(css|fonts|js)/.+\.(css|js|eot|svg|ttf|woff|woff2))$ LocalhostIndexer/$1 [NC]
+	RewriteRule ^(assets/(css|fonts|js|img)/.+\.(css|js|eot|svg|ttf|woff|woff2))$ LocalhostIndexer/$1 [NC]
 	DirectoryIndex index.php index.html
 </IfModule>
 ```
