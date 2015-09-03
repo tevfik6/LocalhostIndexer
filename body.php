@@ -33,7 +33,7 @@ require_once "breadcrumbs.php";
 			$.each($items_object, function (index, item) {
 				$item = $(item);
 				var itemObj = {
-					file_name: $item.find(".file_folder_name").html(),
+					file_name: ($item.find(".file_folder_name").html() == "Level Up"?'..':$item.find(".file_folder_name").html()),
 					perm: $item.find(".file_folder_perm").html(),
 					size: $item.find(".file_folder_size").attr('data'),
 					mtime: $item.find(".file_folder_mtime").attr('data'),
