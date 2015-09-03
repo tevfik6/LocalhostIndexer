@@ -4,9 +4,14 @@ $root_folder = getcwd().'/../';
 
 if(isset($_GET['current_path'])){
 	$current_path = $_GET['current_path'];
-	
-	$current_path = str_replace(array("../", "./", "..", "."), array("","","",""), $current_path );
+
+	$current_path = preg_replace("/\\/{2,}/", "/", $current_path );
+	$current_path = str_replace(array("../", "..", "./"), array("","",""), $current_path );
+	$current_path = preg_replace("/\\/{2,}/", "/", $current_path );
 	$current_path = trim($current_path, '/');
+	if(!is_dir($root_folder.$current_path)){
+		$current_path = "";
+	}
 }
 
 function formatBytes($bytes, $precision = 2) { 
