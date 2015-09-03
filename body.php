@@ -322,10 +322,10 @@ require_once "breadcrumbs.php";
 		$full_path = $file_folder->getPathname();
 
 		//checking is it folder or not based on that pick the icons
-		$icon = '<span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span> ';
+		$icon = '<span class="glyphicon fa fa-folder fa-lg" aria-hidden="true"></span> ';
 		
 		if(!$file_folder->isDir()){
-			$icon = '<span class="glyphicon glyphicon-file" aria-hidden="true"></span> ';
+			$icon = '<span class="glyphicon fa fa-file-o fa-lg" aria-hidden="true"></span> ';
 		}
 
 		//checking if index.php or index.html exist in the following path
@@ -336,6 +336,7 @@ require_once "breadcrumbs.php";
 			array_pop($exp_cp);
 			array_pop($exp_cp);
 			$link = "/?current_path=".implode("/", $exp_cp);
+			$icon = '<span class="glyphicon fa fa-level-up fa-lg" aria-hidden="true" style="margin-left:5px;"></span> ';
 		}	
 		else if(!$file_folder->isDot() && $is_dir && !file_exists($full_path."/index.php") ){
 			$link = "/?current_path=".$link;
@@ -375,7 +376,7 @@ require_once "breadcrumbs.php";
 		$file_folder_info_wrapper = '<div class="file_folder_info pull-right">'.$sugar_version_edition.$file_folder_info.'</div>';
 		if($file_folder_name != "." && ($current_path != "" || !$file_folder->isDot() ) ){
 			$file_folder_container .= '
-			<a href="'.$link.'" class="list-group-item">'.$icon.'<span class="file_folder_name">'.$file_folder_name.'</span>'.$file_folder_info_wrapper.'</a>';
+			<a href="'.$link.'" class="list-group-item">'.$icon.'<span class="file_folder_name">'.($file_folder_name == ".."?'Level Up':$file_folder_name).'</span>'.$file_folder_info_wrapper.'</a>';
 		}
 	}
 

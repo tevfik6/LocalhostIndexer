@@ -15,6 +15,7 @@
 		
 		<!-- Bootstrap core CSS -->
 		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="assets/css/font-awesome.min.css" rel="stylesheet">
 
 		<style>
 			body {
@@ -97,25 +98,25 @@
 			.sugar_logo{
 				width: 18px;
 				height: 18px;
-				margin-left: -2px;
-				margin-right: 5px;
+				margin-left: -1px;
+				margin-right: 7px;
 			}
 
 			@media (min-width: 768px) {
-				.list-group-header.affix,
-				.button-group-wrapper.affix {
+				.list-group-header,
+				.button-group-wrapper {
 					width: 720px;
 				}
 			}
 			@media (min-width: 992px) {
-				.list-group-header.affix,
-				.button-group-wrapper.affix {
+				.list-group-header,
+				.button-group-wrapper {
 					width: 940px;
 				}
 			}
 			@media (min-width: 1200px) {
-				.list-group-header.affix,
-				.button-group-wrapper.affix {
+				.list-group-header,
+				.button-group-wrapper {
 					width: 1140px;
 				}
 			}
