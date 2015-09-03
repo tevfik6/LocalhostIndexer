@@ -292,6 +292,10 @@ require_once "breadcrumbs.php";
 			return result_object;
 		}
 
+		$(".s_link").on('click', function (event) {
+			$(this).parents("a").attr('href', $(this).attr("data-href"));
+		});
+
 		//affix 
 		$('.button-group-wrapper').on('affix.bs.affix', function () {
 			$('.main-container').css("margin-top", '110px');
@@ -323,6 +327,7 @@ require_once "breadcrumbs.php";
 
 		//checking is it folder or not based on that pick the icons
 		$icon = '<span class="glyphicon fa fa-folder fa-lg" aria-hidden="true"></span> ';
+		$s_icon = '<span class="glyphicon fa fa-search" aria-hidden="true" style="top: -1px;margin-left: 5px;"></span> ';
 		
 		if(!$file_folder->isDir()){
 			$icon = '<span class="glyphicon fa fa-file-o fa-lg" aria-hidden="true"></span> ';
@@ -330,7 +335,7 @@ require_once "breadcrumbs.php";
 
 		//checking if index.php or index.html exist in the following path
 		$link = $relative_path;
-
+		$s_link = false;
 		if($file_folder_name == ".."){
 			$exp_cp = explode("/", $relative_path);
 			array_pop($exp_cp);
@@ -340,6 +345,10 @@ require_once "breadcrumbs.php";
 		}	
 		else if(!$file_folder->isDot() && $is_dir && !file_exists($full_path."/index.php") ){
 			$link = "/?current_path=".$link;
+		}
+		else if(!$file_folder->isDot() && $file_folder->isDir()){
+			$s_icon = '<span class="glyphicon fa fa-search" aria-hidden="true" style="top: -1px;margin-left: 5px;"></span> ';
+			$s_link = '<span class="s_link" style="display:inline-block;" data-href="/?current_path='.$link.'">'.$s_icon.'</span>';
 		}
 
 		$file_folder_perm = substr(sprintf('%o', $file_folder->getPerms()), -4).' ';
@@ -376,7 +385,7 @@ require_once "breadcrumbs.php";
 		$file_folder_info_wrapper = '<div class="file_folder_info pull-right">'.$sugar_version_edition.$file_folder_info.'</div>';
 		if($file_folder_name != "." && ($current_path != "" || !$file_folder->isDot() ) ){
 			$file_folder_container .= '
-			<a href="'.$link.'" class="list-group-item">'.$icon.'<span class="file_folder_name">'.($file_folder_name == ".."?'Level Up':$file_folder_name).'</span>'.$file_folder_info_wrapper.'</a>';
+			<a href="'.$link.'" class="list-group-item">'.$icon.'<span class="file_folder_name">'.($file_folder_name == ".."?'Level Up':$file_folder_name).($s_link?:'').'</span>'.$file_folder_info_wrapper.'</a>';
 		}
 	}
 
