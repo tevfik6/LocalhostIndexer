@@ -362,6 +362,8 @@ require_once "breadcrumbs.php";
 
 			$sugar_version_edition = '<span class="sugar"><span class="version" data="'.$version_sort_value.'">'.$sugar['version'].'</span><span class="flavor">'.$sugar['flavor'].'</span><span class="build">'.$sugar['build'].'</span></span>';
 			$any_sugar_folder = true;
+
+			$icon = '<img class="sugar_logo" src="assets/img/sugar_logo.svg"> ';
 		}
 
 		$file_folder_info .= '<span class="file_folder_size" data="'.$file_folder->getSize().'">'.$file_folder_size.'</span>';

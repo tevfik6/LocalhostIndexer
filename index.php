@@ -94,6 +94,12 @@
 			.button-group-wrapper .btn.active .glyphicon{
 				display:inline-block;
 			}
+			.sugar_logo{
+				width: 18px;
+				height: 18px;
+				margin-left: -2px;
+				margin-right: 5px;
+			}
 
 			@media (min-width: 768px) {
 				.list-group-header.affix,
