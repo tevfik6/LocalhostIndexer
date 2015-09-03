@@ -12,13 +12,13 @@ require_once "breadcrumbs.php";
 		<strong>Order by:</strong>
 		<div class="btn-group btn-group-sm" data-toggle="buttons">
 			<label class="btn btn-default active">
-				<input type="radio" name="order_by" id="option_name" value="name" checked> Name <span class="glyphicon glyphicon-sort-by-attributes"></span><span class="glyphicon glyphicon-sort-by-attributes-alt hide"></span>
+				<input type="radio" name="order_by" id="option_name" value="name" checked> Name <span class="glyphicon glyphicon-sort-by-attributes" order-data="asc"></span><span class="glyphicon glyphicon-sort-by-attributes-alt hide" order-data="desc"></span>
 			</label>
 			<label class="btn btn-default sugar-btn">
-				<input type="radio" name="order_by" id="option_sugar_versions" value="sugar_versions"> Sugar Versions <span class="glyphicon glyphicon-sort-by-attributes"></span><span class="glyphicon glyphicon-sort-by-attributes-alt hide"></span>
+				<input type="radio" name="order_by" id="option_sugar_versions" value="sugar_versions"> Sugar Versions <span class="glyphicon glyphicon-sort-by-attributes hide" order-data="desc"></span><span class="glyphicon glyphicon-sort-by-attributes-alt" order-data="asc"></span>
 			</label>
 			<label class="btn btn-default">
-				<input type="radio" name="order_by" id="option_last_modified" value="last_modified"> Last Modified <span class="glyphicon glyphicon-sort-by-attributes hide"></span><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+				<input type="radio" name="order_by" id="option_last_modified" value="last_modified"> Last Modified <span class="glyphicon glyphicon-sort-by-attributes hide"  order-data="desc"></span><span class="glyphicon glyphicon-sort-by-attributes-alt" order-data="asc"></span>
 			</label>
 		</div>
 	</div>
@@ -29,6 +29,7 @@ require_once "breadcrumbs.php";
 
 		function itemsToObject($items_object){
 			var result = []; 
+
 			$.each($items_object, function (index, item) {
 				$item = $(item);
 				var itemObj = {
@@ -53,17 +54,17 @@ require_once "breadcrumbs.php";
 				}
 				result.push(itemObj);
 			});
-			return result;
+			return $.extend(true, [], result);
 		}
 		
-		var list_group_object = itemsToObject($(".list-group").find(".list-group-item").not('.list-group-header'));
-		console.log(list_group_object);
+		var _list_group_object = itemsToObject($(".list-group").find(".list-group-item").not('.list-group-header'));
+		// console.log(_list_group_object);
 		
 		function sort_by_date(a, b){
 			var aRep = a.mtime;
 			var bRep = b.mtime;
-			if (aRep > bRep) return 1;
-			if (aRep < bRep) return -1;
+			if (aRep < bRep) return 1;
+			if (aRep > bRep) return -1;
 			return 0;
 		}
 
@@ -82,14 +83,22 @@ require_once "breadcrumbs.php";
 			// console.log("%cDebugger:", "color:#E8B24D;", aRep, bRep);
 			// console.log("\n");
 
-			if (aRep > bRep) return 1;
-			if (aRep < bRep) return -1;
+			if (aRep < bRep) return 1;
+			if (aRep > bRep) return -1;
 			return 0;
 		}
 
 		function sort_by_found_score(a, b){
 			var aRep = a.found_score;
 			var bRep = b.found_score;
+			if (aRep > bRep) return 1;
+			if (aRep < bRep) return -1;
+			return 0;
+		}
+
+		function sort_by_file_name(a, b){
+			var aRep = a.file_name.toLowerCase();
+			var bRep = b.file_name.toLowerCase();
 			if (aRep > bRep) return 1;
 			if (aRep < bRep) return -1;
 			return 0;
@@ -102,59 +111,74 @@ require_once "breadcrumbs.php";
 			return sorted_array;
 		}
 
-		function reverseArrows(btnObj, reset){
+
+		function print_list_group (print_list_group_object, asc_desc){
+			if($.trim($("#search").val()) != "")
+				var print_list_group_object = search_keyword(print_list_group_object, $("#search").val());
+
+			$(".list-group").find(".list-group-item:not(.list-group-header)").remove();
+			
+			if(asc_desc == "desc") print_list_group_object.reverse();
+			$.each(print_list_group_object, function (index, item) {
+				$(".list-group .list-group-item").last().after(item.obj);
+			});
+		}
+
+
+		function sort_and_print(list_group_objects, order_by, asc_desc){
+			var sorted_list_group_object = $.extend(true, [], list_group_objects);
+			switch(order_by){
+				case 'sugar_versions':
+					sorted_list_group_object = sort_array(sorted_list_group_object, sort_by_sugar_version);
+				break;
+
+				case 'last_modified':
+					sorted_list_group_object = sort_array(sorted_list_group_object, sort_by_date);
+				break;
+
+				case 'name':
+				default:
+					sorted_list_group_object = sort_array(sorted_list_group_object, sort_by_file_name);
+				break;
+			}
+			print_list_group(sorted_list_group_object, asc_desc);
+		}
+
+
+		function reverse_arrows(btnObj, reset){
 			if(typeof reset !== 'undefined'){
-				$(btnObj).find(".glyphicon-sort-by-attributes-alt").removeClass("hide");
-				$(btnObj).find(".glyphicon-sort-by-attributes").addClass("hide");
+				$(btnObj).find(".glyphicon-sort-by-attributes").removeClass("hide");
+				$(btnObj).find(".glyphicon-sort-by-attributes-alt").addClass("hide");
 			}
 			else{
 				$(btnObj).find(".glyphicon").toggleClass('hide');
 			}
 		}
 
-		var sortCheckedValue = $(this).find("input").val();
-		var reversed = false;
-		var sorted_list_group_object = sort_array(list_group_object);
-		$('.button-group-wrapper .btn').on('click', function(){
-			sorted_list_group_object = [];
+		var sortCheckedValue = $('.button-group-wrapper .btn-group .active input').val();
+		var sort = {
+			order:"asc",
+			key:"name"
+		};
 
+		$('.button-group-wrapper .btn').on('click', function(){
 			if(sortCheckedValue == $(this).find("input").val()){ 
-				reversed = !reversed;
-				reverseArrows($(this));
+				reverse_arrows($(this));
 			}
 			else {
-				reversed = true;
-				reverseArrows($(this), true);
+				reverse_arrows($(this), true);
 			}
-			
 			sortCheckedValue = $(this).find("input").val();
-			// console.log("%cDebugger:", "color:green;", sortCheckedValue);
-			// console.log("%cReversed:", "color:#999;", reversed);
-			switch(sortCheckedValue){
-				case 'sugar_versions':
-					sorted_list_group_object = sort_array(list_group_object, sort_by_sugar_version);
-				break;
 
-				case 'last_modified':
-					sorted_list_group_object = sort_array(list_group_object, sort_by_date);
-				break;
+			sort.order = $(this).find(".glyphicon:not(.hide)").attr("order-data");
+			sort.key = $(this).find("input").val();
+			console.log("SORT DATA:", sort);
 
-				case 'name':
-				default:
-					sorted_list_group_object = sort_array(list_group_object);
-				break;
-			}
-
-			if(reversed) sorted_list_group_object.reverse();
-			if($.trim($("#search").val()) != "")
-				var print_list_group_object = search_keyword($("#search").val());
-			else
-				var print_list_group_object = sorted_list_group_object;
+			var active_files_folder = itemsToObject($(".list-group").find(".list-group-item").not('.list-group-header'));
+			console.log("%cDebugger:", "color:green;", active_files_folder);
+			console.log("%cDebugger:", "color:green;", sortCheckedValue);
 			
-			$(".list-group").find(".list-group-item:not(.list-group-header)").remove();
-			$.each(print_list_group_object, function (index, item) {
-				$(".list-group .list-group-item").last().after(item.obj);
-			});
+			sort_and_print(active_files_folder, sort.key, sort.order);
 		});
 
 		$('.button-group-wrapper').on('affix.bs.affix', function () {
@@ -166,7 +190,7 @@ require_once "breadcrumbs.php";
 		});
 
 
-		function search_keyword (keywords) {
+		function search_keyword (sorted_list_group_object, keywords) {
 			var search_list_group_object = sort_array(sorted_list_group_object);
 			
 			var splited_keywords = keywords.split(' ');
@@ -210,14 +234,15 @@ require_once "breadcrumbs.php";
 
 		$("#search").on("keyup", function(event){
 			console.log("%c#search Keypressed:", "color:orange;", $(this).val());
-			var print_list_group_object = search_keyword($(this).val());
-			
-			$(".list-group").find(".list-group-item:not(.list-group-header)").remove();
-			$.each(print_list_group_object, function (index, item) {
-				$(".list-group .list-group-item").last().after(item.obj);
-			});
-
-			$(".button-group-wrapper .btn input:checked").parents("btn").trigger("click");
+			console.log("%c#sort:", "color:orange;", sort);
+			if($.trim($(this).val()) == "") {
+				var active_files_folder = $.extend(true, [], _list_group_object);
+			}
+			else{
+				var active_files_folder = itemsToObject($(".list-group").find(".list-group-item").not('.list-group-header'));			
+			}
+			sort_and_print(active_files_folder, sort.key, sort.order);
+			console.log("btn", $(".button-group-wrapper .btn input:checked").parents(".btn"));
 		});
 	});
 </script>
