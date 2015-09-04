@@ -305,6 +305,10 @@ require_once "breadcrumbs.php";
 			$(".list-group-header").removeClass("affix");
 		});
 
+		//if there is something in the search box remember it
+		if($.trim($("#search").val()) != ""){
+			$("#search").trigger("keyup");
+		}
 	});
 </script>
 <div class="list-group main-container">
