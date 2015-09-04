@@ -36,13 +36,15 @@ function checkSugarVersionEdition($path){
 		$re = "/\\\$sugar_version\\s*=\\s*'(.*)';\\n\\\$sugar_db_version\\s*=\\s*'(.*)';\\n\\\$sugar_flavor\\s*=\\s*'(.*)';\\n\\\$sugar_build\\s*=\\s*'(.*)';\\n\\\$sugar_timestamp\\s*=\\s*'(.*)';/m"; 
 		preg_match($re, $sugar_version_content, $sugar_version_matches);
 		
-		$returnValues = array(
-			'version'	 => $sugar_version_matches[1], // sugar_version
-			'db_version' => $sugar_version_matches[2], // sugar_db_version
-			'flavor'	 => $sugar_version_matches[3], // sugar_flavor
-			'build'		 => is_numeric($sugar_version_matches[4])?$sugar_version_matches[4]:'NaN', // sugar_build
-			'timestamp'	 => $sugar_version_matches[5], // sugar_timestamp
-		);
+		if(is_array($sugar_version_matches) && count($sugar_version_matches) == 6){
+			$returnValues = array(
+				'version'	 => $sugar_version_matches[1], // sugar_version
+				'db_version' => $sugar_version_matches[2], // sugar_db_version
+				'flavor'	 => $sugar_version_matches[3], // sugar_flavor
+				'build'		 => is_numeric($sugar_version_matches[4])?$sugar_version_matches[4]:'NaN', // sugar_build
+				'timestamp'	 => $sugar_version_matches[5], // sugar_timestamp
+			);
+		}
 	}
 	return $returnValues;
 }
