@@ -21,3 +21,4 @@ DirectoryIndex LocalhostIndexer/index.php
 # Sources
 - Bootstrap v3 [http://getbootstrap.com]
 - jQuery [https://jquery.com]
+- Font Awesome [https://fortawesome.github.io/Font-Awesome/]
