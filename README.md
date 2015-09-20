@@ -18,6 +18,8 @@ DirectoryIndex LocalhostIndexer/index.php
 	DirectoryIndex index.php index.html
 </IfModule>
 ```
+# Screenshot
+![Localhost Indexer ScreenShot 01](ScreenShot01.png)
 # Sources
 - Bootstrap v3 [http://getbootstrap.com]
 - jQuery [https://jquery.com]
