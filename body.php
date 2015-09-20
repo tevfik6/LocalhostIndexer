@@ -309,6 +309,8 @@ require_once "breadcrumbs.php";
 		if($.trim($("#search").val()) != ""){
 			$("#search").trigger("keyup");
 		}
+
+		$("#search").trigger("focus");
 	});
 </script>
 <div class="list-group main-container">
