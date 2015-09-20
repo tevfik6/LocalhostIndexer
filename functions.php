@@ -4,16 +4,9 @@ $root_folder = getcwd().'/../';
 
 if(isset($_GET['current_path'])){
 	$current_path = $_GET['current_path'];
-
-	if(substr($current_path, -2) == ".."){
-		$exp_cp = explode("/", $current_path);
-		$exp_cp = array_pop($exp_cp);
-		$exp_cp = array_pop($exp_cp);
-		$current_path = implode("/", $exp_cp);
-	}
-	elseif( substr($current_path, -1) == "." ){
-		$current_path = substr($current_path, 0, -2);
-	}
+	
+	$current_path = str_replace(array("../", "./", "..", "."), array("","","",""), $current_path );
+	$current_path = trim($current_path, '/');
 }
 
 function formatBytes($bytes, $precision = 2) { 

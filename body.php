@@ -331,7 +331,13 @@ require_once "breadcrumbs.php";
 		//checking if index.php or index.html exist in the following path
 		$link = $relative_path;
 
-		if(!$file_folder->isDot() && $is_dir && !file_exists($full_path."/index.php") ){
+		if($file_folder_name == ".."){
+			$exp_cp = explode("/", $relative_path);
+			array_pop($exp_cp);
+			array_pop($exp_cp);
+			$link = "/?current_path=".implode("/", $exp_cp);
+		}	
+		else if(!$file_folder->isDot() && $is_dir && !file_exists($full_path."/index.php") ){
 			$link = "/?current_path=".$link;
 		}
 
