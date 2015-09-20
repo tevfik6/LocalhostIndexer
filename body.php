@@ -120,7 +120,7 @@ require_once "breadcrumbs.php";
 			var print_object = $.extend(true, [], given_print_object);
 
 			$(".list-group").find(".list-group-item:not(.list-group-header)").remove();
-			console.log("%cprint_list_group: "+asc_desc, "color:red");
+			// console.log("%cprint_list_group: "+asc_desc, "color:red");
 			
 			if(asc_desc == "desc") print_object.reverse();
 			
@@ -134,7 +134,7 @@ require_once "breadcrumbs.php";
 		//Sorting and printing the object
 		function sort_and_print(list_group_objects, order_by, asc_desc){
 			var sorted_list_group_object = $.extend(true, [], list_group_objects);
-			console.log("%csort_and_print: "+order_by+" "+asc_desc, "color:red");
+			// console.log("%csort_and_print: "+order_by+" "+asc_desc, "color:red");
 			switch(order_by){
 				case 'sugar_versions':
 					sorted_list_group_object = sort_array(sorted_list_group_object, sort_by_sugar_version);
@@ -182,7 +182,7 @@ require_once "breadcrumbs.php";
 					$btn.removeClass("active");
 				break;
 			}
-			console.log("sort from swicth_btns_state:", sort);
+			// console.log("sort from swicth_btns_state:", sort);
 
 		}
 
@@ -196,7 +196,7 @@ require_once "breadcrumbs.php";
 
 		// order_by buttons click event
 		$('.button-group-wrapper .btn').on('click', function(){
-			console.log(sort.key, $(this).find("input").val(), (sort.key == $(this).find("input").val()))
+			// console.log(sort.key, $(this).find("input").val(), (sort.key == $(this).find("input").val()))
 			
 			if(sort.key == $(this).find("input").val()){ 
 				swicth_btns_state($(this), $(this).find(".glyphicon.hide").attr("order-data"));
@@ -207,10 +207,10 @@ require_once "breadcrumbs.php";
 				swicth_btns_state($(this), "asc");
 			}
 			sort.key = $(this).find("input").val();
-			console.log("sort from click:", sort);
+			// console.log("sort from click:", sort);
 
 			var active_files_folder = itemsToObject($(".list-group").find(".list-group-item").not('.list-group-header'));
-			console.log("%cDebugger:", "color:green;", active_files_folder);
+			// console.log("%cDebugger:", "color:green;", active_files_folder);
 
 			sort_and_print(active_files_folder, sort.key, sort.order);
 		});
@@ -223,7 +223,7 @@ require_once "breadcrumbs.php";
 			if((event.keyCode == 8 || event.keyCode == 46) && $("#option_name").parents(".btn").hasClass("active"))
 				return false;
 
-			console.log("%c#search Keypressed:", "color:orange;", keywords);
+			// console.log("%c#search Keypressed:", "color:orange;", keywords);
 			// console.log("%c#sort:", "color:blue;", sort);
 			
 			// sort.key = 'found_score';
@@ -231,11 +231,11 @@ require_once "breadcrumbs.php";
 
 			if($.trim(keywords) == "" || event.keyCode == 8 || event.keyCode == 46) {
 				var files_folders = $.extend(true, [], _list_group_object);
-				console.log("%c_list_group_object", "color:red;");
+				// console.log("%c_list_group_object", "color:red;");
 			}
 			else{
 				var files_folders = itemsToObject($(".list-group").find(".list-group-item").not('.list-group-header'));
-				console.log("%cfiles_folders", "color:orange;");
+				// console.log("%cfiles_folders", "color:orange;");
 			}
 			files_folders = search_keyword(files_folders, keywords);
 
@@ -288,7 +288,7 @@ require_once "breadcrumbs.php";
 					result_object.push(item);
 				}
 			});
-			console.log("%cSearch Results","color:4584BF;", [result_object]);
+			// console.log("%cSearch Results","color:4584BF;", [result_object]);
 			return result_object;
 		}
 
