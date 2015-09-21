@@ -294,6 +294,7 @@ require_once "breadcrumbs.php";
 
 		$(".s_link").on('click', function (event) {
 			$(this).parents("a").attr('href', $(this).attr("data-href"));
+			event.stopPropagation();
 		});
 
 		//affix 
