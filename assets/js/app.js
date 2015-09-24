@@ -23,10 +23,12 @@ $(function(){
 var vueObj = new Vue({
 	el: '#files-folders',
 	props: ['model'],
-	data:{
+	data: {
+		sortKey: 'name',
+		reverse: false,
 		filesfolders: parsedData,
 	},
-	filters:{
+	filters: {
 		getLink: function (relativePath) {
 			var sliced = relativePath.split("/");
 			var last = sliced[sliced.length-1];
@@ -39,7 +41,14 @@ var vueObj = new Vue({
 			return relativePath;
 		}
 	},
-	methods:{
+	methods: {
+		sortKeyActive: function (sortKey) {
+			return sortKey == this.sortKey; 
+		},
+		sortBy: function (sortKey) {
+			this.reverse = (this.sortKey == sortKey) ? ! this.reverse : false;
+			this.sortKey = sortKey;
+		},
 		anySugarInstances: function () {
 			for (var i = 0; i <= this.filesfolders.length - 1; i++) {
 				if ( this.filesfolders[i].sugar ) 
@@ -47,5 +56,12 @@ var vueObj = new Vue({
 			};
 			return false;
 		},
+		getSugarVersionSortNum: function (sugar_version) {
+			var splited = sugar_version.split(".");
+			for (var i = splited.length - 1; i >= 0; i--) {
+				if ( splited[i] <= 9 && i != 0 ) splited[i] = "0"+splited[i];
+			};
+			return splited.join('');
+		}
 	}
 })

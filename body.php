@@ -11,19 +11,29 @@ require_once "breadcrumbs.php";
 </div>
 <div class="list-group main-container" id="files-folders">
 	<li class="list-group-item list-group-header">
-		<span class="file_folder_name">File/Folder Name</span>
+		<span class="file_folder_name">
+			<a href="#" v-on="click: sortBy('name')">File/Folder Name <i v-if="sortKeyActive('name')" v-class="fa-sort-alpha-asc: !reverse, fa-sort-alpha-desc: reverse" class="fa "></i></a>
+		</span>
 		<div class="file_folder_info pull-right">
 			<span class="sugar" v-if="anySugarInstances()">
-				<span class="version">Sugar Version</span>
+				<span class="version">
+					<a href="#" v-on="click: sortBy('sugar.version_sort_num')">Sugar Version <i v-if="sortKeyActive('sugar.version_sort_num')" v-class="fa-sort-numeric-asc: !reverse, fa-sort-numeric-desc: reverse" class="fa "></i></a>
+				</span>
 				<span class="flavor">Sugar Edition</span>
 				<span class="build">Sugar Build</span>
 			</span>
-			<span class="file_folder_size">File Size</span>
-			<span class="file_folder_perm">Perm </span>
-			<span class="file_folder_mtime">Last Modified</span>
+			<span class="file_folder_size">
+				<a href="#" v-on="click: sortBy('size.plain')">File Size <i v-if="sortKeyActive('size.plain')" v-class="fa-sort-numeric-asc: !reverse, fa-sort-numeric-desc: reverse" class="fa "></i></a>
+			</span>
+			<span class="file_folder_perm">
+				<a href="#" v-on="click: sortBy('perm.plain')">Perm  <i v-if="sortKeyActive('perm.plain')" v-class="fa-sort-numeric-asc: !reverse, fa-sort-numeric-desc: reverse" class="fa "></i></a>
+			</span>
+			<span class="file_folder_mtime">
+				<a href="#" v-on="click: sortBy('mtime.plain')">Last Modified  <i v-if="sortKeyActive('mtime.plain')" v-class="fa-sort-amount-asc: !reverse, fa-sort-amount-desc: reverse" class="fa "></i></a>
+			</span>
 		</div>
 	</li>
-	<a v-repeat="filesfolders" href="{{ is_dir && !has_index_php || name == '..' ? '/?current_path='+relative_path : relative_path | getLink  }}" class="list-group-item">
+	<a v-repeat="filesfolders | orderBy sortKey reverse" href="{{ is_dir && !has_index_php || name == '..' ? '/?current_path='+relative_path : relative_path | getLink  }}" class="list-group-item">
 		<span v-if="name == '..'" class="glyphicon fa fa-level-up fa-lg" aria-hidden="true" style="margin-left:5px;"></span>
 		<img  v-if="sugar && name != '..'" class="sugar_logo" src="assets/img/sugar_logo.svg">
 		<span v-if="is_dir && name != '..' && !sugar" class="glyphicon fa fa-folder fa-lg" aria-hidden="true"></span>
@@ -32,12 +42,12 @@ require_once "breadcrumbs.php";
 		<span v-if="name != '..' && has_index_php" class="glyphicon fa fa-search s_link" aria-hidden="true" style="top: -1px;margin-left: 5px;"></span> 
 		<div class="file_folder_info pull-right">
 			<span class="sugar" v-if="sugar">
-				<span class="version" data="{{ sugar.version_order_num }}">{{ sugar.version }}</span>
+				<span class="version" data="{{ sugar.version_sort_num }}">{{ sugar.version }}</span>
 				<span class="flavor">{{ sugar.flavor }}</span>
 				<span class="build">{{ sugar.build }}</span>
 			</span>
 			<span class="file_folder_size" data="{{ size.plain }}">{{ is_dir ? '&nbsp;' : size.formated }}</span>
-			<span class="file_folder_perm" data="{{ perm.plain }}">{{perm.formated }}</span>
+			<span class="file_folder_perm" data="{{ perm.plain }}">{{ perm.formated }}</span>
 			<span class="file_folder_mtime" data="{{ mtime.plain }}">{{ mtime.formated }}</span>
 		</div>
 	</a>

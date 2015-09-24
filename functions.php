@@ -48,7 +48,7 @@ function checkSugarVersionEdition($path){
 			foreach ($version_sort_values as $key => $value) {
 				if($value <= 9 and $key != 0) $version_sort_values[$key] = "0".$value;
 			}
-			$returnValues['version_order_num'] = implode("", $version_sort_values);
+			$returnValues['version_sort_num'] = implode("", $version_sort_values);
 		}
 	}
 	return $returnValues;
@@ -70,11 +70,11 @@ function getFilesFolders()
 				'relative_path' 	=> ($current_path != "" ? $current_path."/" : '').$file_folder->getFilename(),
 				'full_path' 		=> $file_folder->getPathname(),
 				'perm' 				=> array(
-					'plain' 			=> $file_folder->getPerms(),
+					'plain' 			=> substr(sprintf('%o', $file_folder->getPerms()), -4),
 					'formated' 			=> substr(sprintf('%o', $file_folder->getPerms()), -4).' ',
 				),
 				'size' 				=> array(
-					'plain' 			=> $file_folder->getSize(),
+					'plain' 			=> $file_folder->isDir() ? 0 : $file_folder->getSize(),
 					'formated' 			=> $file_folder->isDir() ? false : formatBytes($file_folder->getSize()),
 				),
 				'mtime' 			=> array(
