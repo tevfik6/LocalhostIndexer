@@ -32,9 +32,9 @@ require_once "breadcrumbs.php";
 		<span v-if="name != '..' && has_index_php" class="glyphicon fa fa-search s_link" aria-hidden="true" style="top: -1px;margin-left: 5px;"></span> 
 		<div class="file_folder_info pull-right">
 			<span class="sugar" v-if="sugar">
-				<span class="version" data="7060200">7.6.2.0</span>
-				<span class="flavor">ENT</span>
-				<span class="build">1002</span>
+				<span class="version" data="{{ sugar.version_order_num }}">{{ sugar.version }}</span>
+				<span class="flavor">{{ sugar.flavor }}</span>
+				<span class="build">{{ sugar.build }}</span>
 			</span>
 			<span class="file_folder_size" data="{{ size.plain }}">{{ is_dir ? '&nbsp;' : size.formated }}</span>
 			<span class="file_folder_perm" data="{{ perm.plain }}">{{perm.formated }}</span>

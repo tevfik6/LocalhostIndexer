@@ -44,6 +44,11 @@ function checkSugarVersionEdition($path){
 				'build'		 => is_numeric($sugar_version_matches[4])?$sugar_version_matches[4]:'NaN', // sugar_build
 				'timestamp'	 => $sugar_version_matches[5], // sugar_timestamp
 			);
+			$version_sort_values = explode(".",$returnValues['version']);
+			foreach ($version_sort_values as $key => $value) {
+				if($value <= 9 and $key != 0) $version_sort_values[$key] = "0".$value;
+			}
+			$returnValues['version_order_num'] = implode("", $version_sort_values);
 		}
 	}
 	return $returnValues;
