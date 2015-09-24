@@ -1,0 +1,118 @@
+body {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.navbar {
+	margin-bottom: 20px;
+}
+
+.file_folder_size {
+	display: inline-block;
+	margin-left: 15px;
+	width: 75px;
+}
+
+.file_folder_perm {
+	display: inline-block;
+	margin-left: 15px;
+	width: 38px;
+}
+
+.file_folder_mtime {
+	display: inline-block;
+	margin-left: 15px;
+	width: 132px;
+}
+
+.sugar {
+	display: inline-block;
+	margin-right: 50px;
+}
+
+.sugar .version {
+	margin-left: 15px;
+	display: inline-block;
+	text-align: center;
+	width: 98px;
+}
+
+.sugar .flavor {
+	margin-left: 15px;
+	width: 94px;
+	text-align: center;
+	display: inline-block;
+}
+
+.sugar .build {
+	margin-left: 15px;
+	text-align: center;
+	display: inline-block;
+	width: 84px;
+}
+
+.glyphicon {
+	margin-right: 8px;
+}
+
+.list-group-header {
+	font-weight: bold;
+	z-index: 9999;
+}
+
+.list-group-header.affix {
+	top: 60px;
+}
+
+.button-group-wrapper {
+	margin-bottom: 10px;
+	display: inline-block;
+	background-color: #fff;
+	z-index: 9998;
+}
+
+.button-group-label {
+	font-size: 15px;
+}
+
+.button-group-wrapper.affix {
+	top: 0px;
+	padding: 10px 0 50px;
+	border-bottom: 1px solid #ccc;
+}
+
+.button-group-wrapper .btn .glyphicon {
+	display: none;
+}
+
+.button-group-wrapper .btn.active .glyphicon {
+	display: inline-block;
+}
+
+.sugar_logo {
+	width: 18px;
+	height: 18px;
+	margin-left: -1px;
+	margin-right: 7px;
+}
+
+@media (min-width: 768px) {
+	.list-group-header,
+	.button-group-wrapper {
+		width: 720px;
+	}
+}
+
+@media (min-width: 992px) {
+	.list-group-header,
+	.button-group-wrapper {
+		width: 940px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.list-group-header,
+	.button-group-wrapper {
+		width: 1140px;
+	}
+}
