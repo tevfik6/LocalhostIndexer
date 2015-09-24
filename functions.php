@@ -48,3 +48,47 @@ function checkSugarVersionEdition($path){
 	}
 	return $returnValues;
 }
+
+function getFilesFolders()
+{
+	global $root_folder, $current_path;
+	$files_folders_iterator = new DirectoryIterator($root_folder.$current_path);
+	$files_folders_container = array();
+	$date_format = "d-m-Y H:i:s";
+
+	foreach ($files_folders_iterator as $file_folder) {
+		if($file_folder->getFilename() != "." && ($current_path != "" || !$file_folder->isDot() ) ){
+			$current_file_folder = array(
+				'is_dir' 			=> $file_folder->isDir(),
+				'is_dot' 			=> $file_folder->isDot(),
+				'name' 				=> $file_folder->getFilename(),
+				'relative_path' 	=> ($current_path != "" ? $current_path."/" : '').$file_folder->getFilename(),
+				'full_path' 		=> $file_folder->getPathname(),
+				'perm' 				=> array(
+					'plain' 			=> $file_folder->getPerms(),
+					'formated' 			=> substr(sprintf('%o', $file_folder->getPerms()), -4).' ',
+				),
+				'size' 				=> array(
+					'plain' 			=> $file_folder->getSize(),
+					'formated' 			=> $file_folder->isDir() ? false : formatBytes($file_folder->getSize()),
+				),
+				'mtime' 			=> array(
+					'plain' 			=> $file_folder->getMTime(),
+					'formated' 			=> date($date_format, $file_folder->getMTime()),
+				), //modified time
+				'atime' 			=> array(
+					'plain' 			=> $file_folder->getMTime(),
+					'formated' 			=> date($date_format, $file_folder->getATime()), 
+				), //access time
+				'ctime' 			=> array(
+					'plain' 			=> $file_folder->getMTime(),
+					'formated' 			=> date($date_format, $file_folder->getCTime()), 
+				),//inode change time
+				'sugar'				=> checkSugarVersionEdition($file_folder->getPathname()),
+				'has_index_php'		=> file_exists($file_folder->getPathname()."/index.php"),
+			);
+			array_push($files_folders_container, $current_file_folder);
+		}
+	}
+	return $files_folders_container;
+}
