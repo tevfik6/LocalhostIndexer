@@ -24,26 +24,18 @@ var vueObj = new Vue({
 	el: '#files-folders',
 	props: ['model'],
 	data:{
-		filesfolders:[],
-	},
-	ready: function () {
-		this.$set('filesfolders', parsedData);
+		filesfolders: parsedData,
 	},
 	filters:{
 		getLink: function (relativePath) {
 			var sliced = relativePath.split("/");
-			console.log("sliced", sliced, "relativePath", relativePath);
 			var last = sliced[sliced.length-1];
-			console.log("sliced", sliced, "relativePath", relativePath, "last", last);
 			if(last == '..'){
 				sliced.pop();
 				sliced.pop();
-				console.log("sliced", sliced, "relativePath", relativePath, "last", last);
 				relativePath = sliced.join("/");
 				relativePath = relativePath == "" ? '/' : relativePath;
 			}
-			console.log("sliced", sliced, "relativePath", relativePath, "last", last);
-			console.log("\n\n");
 			return relativePath;
 		}
 	},
