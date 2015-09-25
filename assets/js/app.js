@@ -13,20 +13,29 @@ $(function(){
 		$(".list-group-header").removeClass("affix");
 	});
 
-	//if there is something in the search box remember it
-	if($.trim($("#search").val()) != ""){
-		$("#search").trigger("keyup");
-	}
+	// //if there is something in the search box remember it
+	// if($.trim($("#search").val()) != ""){
+	// 	$("#search").trigger("keyup");
+	// }
 
 	$("#search").trigger("focus");
 });
 var vueObj = new Vue({
-	el: '#files-folders',
-	props: ['model'],
+	el: 'body',
 	data: {
 		sortKey: 'name',
 		reverse: false,
+		searchKeyword: '',
 		filesfolders: parsedData,
+	},
+	created: function () {
+		var self = this;
+		this.filesfolders.forEach(function (filefolder) {
+			if(!filefolder.sugar)
+				filefolder.sugar_sort_version = 0;
+			else
+				filefolder.sugar_sort_version = self.getSugarVersionSortNum(filefolder.sugar.version);
+		});
 	},
 	filters: {
 		getLink: function (relativePath) {

@@ -5,11 +5,11 @@ require_once "breadcrumbs.php";
 	<div class="col-xs-4">
 		<div class="input-group">
 			<div class="input-group-addon"><span class="glyphicon glyphicon-search" style="margin-right:0px"></span></div>
-			<input type="text" class="form-control" id="search" placeholder="Keyword">
+			<input type="text" class="form-control" id="search" v-model="searchKeyword" placeholder="Keyword">
 		</div>
 	</div>
 </div>
-<div class="list-group main-container" id="files-folders">
+<div class="list-group main-container">
 	<li class="list-group-item list-group-header">
 		<span class="file_folder_name">
 			<a href="#" v-on="click: sortBy('name')">File/Folder Name <i v-if="sortKeyActive('name')" v-class="fa-sort-alpha-asc: !reverse, fa-sort-alpha-desc: reverse" class="fa "></i></a>
@@ -17,7 +17,7 @@ require_once "breadcrumbs.php";
 		<div class="file_folder_info pull-right">
 			<span class="sugar" v-if="anySugarInstances()">
 				<span class="version">
-					<a href="#" v-on="click: sortBy('sugar.version_sort_num')">Sugar Version <i v-if="sortKeyActive('sugar.version_sort_num')" v-class="fa-sort-numeric-asc: !reverse, fa-sort-numeric-desc: reverse" class="fa "></i></a>
+					<a href="#" v-on="click: sortBy('sugar_sort_version')">Sugar Version <i v-if="sortKeyActive('sugar_sort_version')" v-class="fa-sort-numeric-asc: !reverse, fa-sort-numeric-desc: reverse" class="fa "></i></a>
 				</span>
 				<span class="flavor">Sugar Edition</span>
 				<span class="build">Sugar Build</span>
@@ -33,7 +33,7 @@ require_once "breadcrumbs.php";
 			</span>
 		</div>
 	</li>
-	<a v-repeat="filesfolders | orderBy sortKey reverse" href="{{ is_dir && !has_index_php || name == '..' ? '/?current_path='+relative_path : relative_path | getLink  }}" class="list-group-item">
+	<a v-repeat="filesfolders | filterBy searchKeyword | orderBy sortKey reverse" href="{{ is_dir && !has_index_php || name == '..' ? '/?current_path='+relative_path : relative_path | getLink  }}" class="list-group-item">
 		<span v-if="name == '..'" class="glyphicon fa fa-level-up fa-lg" aria-hidden="true" style="margin-left:5px;"></span>
 		<img  v-if="sugar && name != '..'" class="sugar_logo" src="assets/img/sugar_logo.svg">
 		<span v-if="is_dir && name != '..' && !sugar" class="glyphicon fa fa-folder fa-lg" aria-hidden="true"></span>
@@ -42,7 +42,7 @@ require_once "breadcrumbs.php";
 		<span v-if="name != '..' && has_index_php" class="glyphicon fa fa-search s_link" aria-hidden="true" style="top: -1px;margin-left: 5px;"></span> 
 		<div class="file_folder_info pull-right">
 			<span class="sugar" v-if="sugar">
-				<span class="version" data="{{ sugar.version_sort_num }}">{{ sugar.version }}</span>
+				<span class="version">{{ sugar.version }}</span>
 				<span class="flavor">{{ sugar.flavor }}</span>
 				<span class="build">{{ sugar.build }}</span>
 			</span>
@@ -52,3 +52,4 @@ require_once "breadcrumbs.php";
 		</div>
 	</a>
 </div>
+<pre>{{ $data | json 4 }}</pre>
