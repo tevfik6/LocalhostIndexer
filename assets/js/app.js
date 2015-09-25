@@ -90,7 +90,9 @@ var vueObj = new Vue({
 			return sortKey == this.sortKey; 
 		},
 
-		sortBy: function (sortKey) {
+		sortBy: function (sortKey, e) {
+			if (arguments.length == 2)
+				e.preventDefault();
 			this.reverse = (this.sortKey == sortKey) ? ! this.reverse : false;
 			this.sortKey = sortKey;
 			localWorker.set("reverse", this.reverse);
