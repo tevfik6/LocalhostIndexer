@@ -20,11 +20,46 @@ $(function(){
 
 	$("#search").trigger("focus");
 });
+
+var localWorker = {
+	localWorkerToken: "LocalhostIndexer",
+	defaults: {
+		sortKey: 'name',
+		reverse: false,
+	},
+	support: function () {
+		return (typeof(Storage) !== "undefined"); 
+	},
+	get: function (itemKey) {
+		var itemValue = this.defaults[itemKey];
+		if( this.check(itemKey) && this.support() ) {
+			itemKey = this.localWorkerToken+"_"+itemKey;
+			itemValue = localStorage.getItem(itemKey);
+		}
+		return itemValue;
+	},
+	set: function (itemKey, itemValue) {
+		itemKey = this.localWorkerToken+"_"+itemKey;
+		localStorage.setItem(itemKey, itemValue);
+	},
+	del: function (itemKey) {
+		this.delete(itemKey);
+	},
+	delete: function (itemKey) {
+		itemKey = this.localWorkerToken+"_"+itemKey;
+		localStorage.removeItem(itemKey);
+	},
+	check: function (itemKey) {
+		itemKey = this.localWorkerToken+"_"+itemKey;
+		return localStorage.getItem(itemKey) !== null;
+	}
+};
+
 var vueObj = new Vue({
 	el: 'body',
 	data: {
-		sortKey: 'name',
-		reverse: false,
+		sortKey: localWorker.get('sortKey'), //'name'
+		reverse: localWorker.get('reverse') == "false" ? false : true, //false
 		searchKeyword: '',
 		filesfolders: parsedData,
 	},
@@ -54,15 +89,21 @@ var vueObj = new Vue({
 		sortKeyActive: function (sortKey) {
 			return sortKey == this.sortKey; 
 		},
+
 		sortBy: function (sortKey) {
 			this.reverse = (this.sortKey == sortKey) ? ! this.reverse : false;
 			this.sortKey = sortKey;
+			localWorker.set("reverse", this.reverse);
+			localWorker.set("sortKey", this.sortKey);
 		},
 		anySugarInstances: function () {
 			for (var i = 0; i <= this.filesfolders.length - 1; i++) {
 				if ( this.filesfolders[i].sugar ) 
 					return true;
 			};
+			if(localWorker.get("sortKey") == 'sugar_sort_version'){
+				this.sortBy('name');
+			}
 			return false;
 		},
 		getSugarVersionSortNum: function (sugar_version) {
