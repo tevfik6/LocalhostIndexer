@@ -61,6 +61,7 @@ var vueObj = new Vue({
 		sortKey: localWorker.get('sortKey'), //'name'
 		reverse: localWorker.get('reverse') == "false" ? false : true, //false
 		searchKeyword: '',
+		levelUp: false,
 		filesfolders: parsedData,
 	},
 	created: function () {
@@ -70,6 +71,11 @@ var vueObj = new Vue({
 				filefolder.sugar_sort_version = 0;
 			else
 				filefolder.sugar_sort_version = self.getSugarVersionSortNum(filefolder.sugar.version);
+			if(filefolder.name == ".."){
+				self.levelUp = [];
+				self.levelUp.push(filefolder);
+				self.filesfolders.$remove(filefolder);
+			}
 		});
 	},
 	filters: {

@@ -33,6 +33,15 @@ require_once "breadcrumbs.php";
 			</span>
 		</div>
 	</li>
+	<a v-repeat="levelUp" href="{{ '/?current_path='+relative_path | getLink  }}" class="list-group-item hide" v-class="hide: false">
+		<span class="glyphicon fa fa-level-up fa-lg" aria-hidden="true" style="margin-left:5px;"></span>
+		<span class="file_folder_name">Level Up</span>
+		<div class="file_folder_info pull-right">
+			<span class="file_folder_size">&nbsp;</span>
+			<span class="file_folder_perm">&nbsp;</span>
+			<span class="file_folder_mtime">&nbsp;</span>
+		</div>
+	</a>
 	<a v-repeat="filesfolders | filterBy searchKeyword in 'name' 'perm.formated' 'mtime.formated' 'sugar.version' 'sugar.flavor' | orderBy sortKey reverse" href="{{ is_dir && !has_index_php || name == '..' ? '/?current_path='+relative_path : relative_path | getLink  }}" class="list-group-item hide" v-class="hide: false">
 		<span v-if="name == '..'" class="glyphicon fa fa-level-up fa-lg" aria-hidden="true" style="margin-left:5px;"></span>
 		<img  v-if="sugar && name != '..'" class="sugar_logo" src="assets/img/sugar_logo.svg">
