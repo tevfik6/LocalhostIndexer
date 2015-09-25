@@ -2,7 +2,7 @@
 require_once "breadcrumbs.php";
 ?>
 <div class="button-group-wrapper" data-spy="affix" data-offset-top="66">
-	<div class="col-xs-4">
+	<div class="col-xs-6">
 		<div class="input-group">
 			<div class="input-group-addon"><span class="glyphicon glyphicon-search" style="margin-right:0px"></span></div>
 			<input type="text" class="form-control" id="search" v-model="searchKeyword" placeholder="Keyword">
