@@ -81,14 +81,6 @@ body {
 	border-bottom: 1px solid #ccc;
 }
 
-.button-group-wrapper .btn .glyphicon {
-	display: none;
-}
-
-.button-group-wrapper .btn.active .glyphicon {
-	display: inline-block;
-}
-
 .sugar_logo {
 	width: 18px;
 	height: 18px;
@@ -99,7 +91,10 @@ body {
 @media (min-width: 768px) {
 	.list-group-header,
 	.button-group-wrapper {
-		width: 720px;
+		width: 940px;
+	}
+	.container{
+		width: 970px;
 	}
 }
 
@@ -115,4 +110,7 @@ body {
 	.button-group-wrapper {
 		width: 1140px;
 	}
+	.container {
+        width:1170px
+    }
 }
