@@ -52,4 +52,3 @@ require_once "breadcrumbs.php";
 		</div>
 	</a>
 </div>
-<pre>{{ $data | json 4 }}</pre>
