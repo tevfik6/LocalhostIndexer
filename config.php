@@ -7,5 +7,8 @@ return array(
         'index.php',
         'LocalhostIndexer',
     ),
+
+    //file and folder list view date format
+    'date_format' => "d-m-Y H:i:s",
 );
 ?>

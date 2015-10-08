@@ -55,7 +55,7 @@ function getFilesFolders()
 	global $root_folder, $current_path, $config;
 	$files_folders_iterator = new DirectoryIterator($root_folder.$current_path);
 	$files_folders_container = array();
-	$date_format = "d-m-Y H:i:s";
+	$date_format = $config['date_format'];
 
 	//updating with full path for comparison
 	foreach ($config['ignored_files'] as $key => $value) {
