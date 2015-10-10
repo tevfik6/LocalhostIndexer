@@ -9,7 +9,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 		<title>Localhost Indexer</title>
-		
+
 		<!-- Bootstrap core CSS -->
 		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
 		<link href="assets/css/font-awesome.min.css" rel="stylesheet">
@@ -23,7 +23,8 @@
 	</head>
 	<body>
 		<div class="container">
-			<?php require_once("body.php") ?>
+			<?php require_once "breadcrumbs.php"; ?>
+			<?php require_once "body.php"; ?>
 		</div> <!-- /container -->
 		<!-- Bootstrap core JavaScript
 		================================================== -->
@@ -31,7 +32,7 @@
 		<script>
 			var parsedData = JSON.parse('<?php echo json_encode( getFilesFolders() ) ?>');
 		</script>
-		
+
 		<script src="assets/js/jquery.min.js"></script>
 		<script src="assets/js/bootstrap.min.js"></script>
 		<script src="assets/js/vue.min.js"></script>
