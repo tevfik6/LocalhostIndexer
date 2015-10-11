@@ -110,6 +110,15 @@ body {
 	margin-top: 5px;
 }
 
+.soft_wrap.active.focus,
+.soft_wrap.active:focus,
+.soft_wrap.focus,
+.soft_wrap:active.focus,
+.soft_wrap:active:focus,
+.soft_wrap:focus{
+	outline: 0px none;
+}
+
 @media (min-width: 768px) {
 	.list-group-header,
 	.button-group-wrapper {

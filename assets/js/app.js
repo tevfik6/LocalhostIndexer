@@ -18,10 +18,54 @@ $(function(){
 		$(".list-group-header").removeClass("affix");
 	});
 
-	if ( typeof ace_editor_theme !== 'undefined' ) {
-		$("select#editor-theme").find('option').removeAttr("selected").each(function () {
+	if (typeof editor !== 'undefined' ){
+		if (localWorker.get("editor-theme")){
+			ace_editor_theme = localWorker.get("editor-theme");
+		}
+		if (localWorker.get("editor-softwrap")){
+			var soft_wrap = localWorker.get("editor-softwrap") == 'true' ? true : false;
+			editor.getSession().setUseWrapMode(soft_wrap);
+			if ( soft_wrap ) $(".soft_wrap").addClass('active');
+			else $(".soft_wrap").removeClass('active');
+		}
+		else{
+			localWorker.set("editor-softwrap", false);
+		}
+
+		if ( typeof ace_editor_theme !== 'undefined' ) {
+			var found = false;
+			$("select#editor-theme").find('option').removeAttr("selected").each(function () {
+				var $this = $(this);
+				if($this.val() == ace_editor_theme ) {
+					$this.attr("selected","selected");
+					editor.setTheme(ace_editor_theme);
+					found = true;
+				}
+			});
+			if ( !found ) {
+				ace_editor_theme = false;
+			}
+		}
+		if( typeof ace_editor_theme === 'undefined' || !ace_editor_theme) {
+			var $selected_option = $("select#editor-theme").find('option:selected');
+			ace_editor_theme = $selected_option.val();
+			localWorker.set("editor-theme", ace_editor_theme);
+			editor.setTheme(ace_editor_theme);
+		}
+
+		$("select#editor-theme").on('change', function () {
 			var $this = $(this);
-			if($this.val() == ace_editor_theme ) $this.attr("selected","selected");
+			ace_editor_theme = $this.val();
+			localWorker.set("editor-theme", ace_editor_theme);
+			editor.setTheme(ace_editor_theme);
+		});
+
+		$(".soft_wrap").on("click", function (event) {
+			var $this = $(this);
+			var ace_soft_wrap = !$this.hasClass("active");
+			localWorker.set("editor-softwrap", ace_soft_wrap);
+			editor.getSession().setUseWrapMode(ace_soft_wrap);
+			$this.toggleClass("active");
 		});
 	}
 

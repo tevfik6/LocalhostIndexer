@@ -12,8 +12,6 @@ return array(
     'date_format' => "d-m-Y H:i:s",
 
     'ace' => array(
-        //defaul ace theme
-        'theme' => 'ace/theme/textmate',
         //default file extension mapping to edit in ace editor
         'extensions' => array(
             // 'file extension' => 'ace library'
