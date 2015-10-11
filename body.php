@@ -45,7 +45,8 @@
 		<span v-if="is_dir && name != '..' && !sugar" class="glyphicon fa fa-folder fa-lg" aria-hidden="true"></span>
 		<span v-if="!is_dir && !sugar"class="glyphicon fa fa-file-o fa-lg" aria-hidden="true"></span>
 		<span class="file_folder_name">{{ name == '..' ? 'Level Up' : name }}</span>
-		<span v-if="name != '..' && has_index_php" class="glyphicon fa fa-search s_link" aria-hidden="true"></span>
+		<span v-if="name != '..' && has_index_php" class="glyphicon fa fa-search s_link browse_folder" title="Browse the folder" aria-hidden="true"></span>
+		<span v-if="editable && !is_dir" class="glyphicon fa fa-pencil-square-o s_link go_to_editor" title="Open in Editor" aria-hidden="true"></span>
 		<div class="file_folder_info pull-right">
 			<span class="sugar" v-if="sugar">
 				<span class="version">{{ sugar.version }}</span>

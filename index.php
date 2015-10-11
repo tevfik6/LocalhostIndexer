@@ -24,7 +24,13 @@
 	<body>
 		<div class="container">
 			<?php require_once "breadcrumbs.php"; ?>
-			<?php require_once "body.php"; ?>
+			<?php
+				if(isset($_GET['editor'])){
+					require_once "editor.php";
+				}else{
+					require_once "body.php";
+				}
+			?>
 		</div> <!-- /container -->
 		<!-- Bootstrap core JavaScript
 		================================================== -->

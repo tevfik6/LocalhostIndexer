@@ -10,5 +10,32 @@ return array(
 
     //file and folder list view date format
     'date_format' => "d-m-Y H:i:s",
+
+    'ace' => array(
+        //defaul ace theme
+        'theme' => 'ace/theme/textmate',
+        //default file extension mapping to edit in ace editor
+        'extensions' => array(
+            // 'file extension' => 'ace library'
+            'php'       => 'php',
+            'js'        => 'javascript',
+            'html'      => 'html',
+            'css'       => 'css',
+            'json'      => 'json',
+            'sql'       => 'sql',
+            'xml'       => 'xml',
+            'py'        => 'python',
+            'diff'      => 'diff',
+            'htaccess'  => 'apache_conf',
+            'gitignore' => 'gitignore',
+            'hbs'       => 'handlebars',
+            'md'        => 'markdown',
+            'coffee'    => 'coffee',
+            'sh'        => 'sh',
+            'less'      => 'less',
+            'ini'       => 'ini',
+            // ''    => 'smarty',
+        ),
+    ),
 );
 ?>

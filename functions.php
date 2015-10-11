@@ -3,6 +3,11 @@ $current_path = "";
 $root_folder = getcwd().'/../';
 $config = include "config.php";
 
+if(isset($_GET['editor'])){
+	$ace_editor['ext'] = $config['ace']['extensions'];
+	$ace_editor['theme'] = $config['ace']['theme'];
+}
+
 if(isset($_GET['current_path'])){
 	$current_path = $_GET['current_path'];
 
@@ -10,7 +15,7 @@ if(isset($_GET['current_path'])){
 	$current_path = str_replace(array("../", "..", "./"), array("","",""), $current_path );
 	$current_path = preg_replace("/\\/{2,}/", "/", $current_path );
 	$current_path = trim($current_path, '/');
-	if(!is_dir($root_folder.$current_path)){
+	if(!is_dir($root_folder.$current_path) && !isset($ace_editor)){
 		$current_path = "";
 	}
 }
@@ -52,7 +57,7 @@ function checkSugarVersionEdition($path){
 
 function getFilesFolders()
 {
-	global $root_folder, $current_path, $config;
+	global $root_folder, $current_path, $config, $ace_editor;
 	$files_folders_iterator = new DirectoryIterator($root_folder.$current_path);
 	$files_folders_container = array();
 	$date_format = $config['date_format'];
@@ -92,6 +97,7 @@ function getFilesFolders()
 				),//inode change time
 				'sugar'				=> checkSugarVersionEdition($file_folder->getPathname()),
 				'has_index_php'		=> file_exists($file_folder->getPathname()."/index.php"),
+				'editable'			=> array_key_exists($file_folder->getExtension(), $config['ace']['extensions'])?:false,
 			);
 			array_push($files_folders_container, $current_file_folder);
 		}
