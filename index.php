@@ -36,7 +36,8 @@
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script>
-			var parsedData = JSON.parse('<?php echo json_encode( getFilesFolders() ) ?>');
+			var fileFoldersData = '<?php !isset($ace_editor) and print json_encode( getFilesFolders() ) ?>';
+			var parsedData = fileFoldersData == "" ? [] : JSON.parse(fileFoldersData);
 		</script>
 
 		<script src="assets/js/jquery.min.js"></script>
