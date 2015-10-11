@@ -5,7 +5,6 @@ $config = include "config.php";
 
 if(isset($_GET['editor'])){
 	$ace_editor['ext'] = $config['ace']['extensions'];
-	$ace_editor['theme'] = $config['ace']['theme'];
 }
 
 if(isset($_GET['current_path'])){
