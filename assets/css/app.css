@@ -110,13 +110,14 @@ body {
 	margin-top: 5px;
 }
 
-.soft_wrap.active.focus,
-.soft_wrap.active:focus,
-.soft_wrap.focus,
-.soft_wrap:active.focus,
-.soft_wrap:active:focus,
-.soft_wrap:focus{
+.editor-nav button.active.focus,
+.editor-nav button.active:focus,
+.editor-nav button.focus,
+.editor-nav button:active.focus,
+.editor-nav button:active:focus,
+.editor-nav button:focus{
 	outline: 0px none;
+	-webkit-appearance:none;
 }
 
 @media (min-width: 768px) {
