@@ -67,6 +67,36 @@ $(function(){
 			editor.getSession().setUseWrapMode(ace_soft_wrap);
 			$this.toggleClass("active");
 		});
+
+		editor.on('input', function (event) {
+		    if (editor.getSession().getUndoManager().isClean())
+				$('.file_save').addClass("disabled");
+		    else
+				$('.file_save').removeClass("disabled");
+		});
+
+		$('.file_save').on("click", function() {
+			$.ajax({
+				method: "POST",
+				url: "?save=true",
+				data: {file_path: current_file_path, content: editor.getValue()},
+				dataType: 'json',
+				success: function (result) {
+					if (result.success){
+						editor.getSession().getUndoManager().markClean();
+						$('.file_save').addClass("disabled");
+					}
+				}
+			});
+		});
+
+		$("#editor").bind('keydown', function (event) {
+			if ((event.metaKey || event.ctrlKey) && event.keyCode == 83) { /*ctrl+s or command+s*/
+				event.preventDefault();
+				event.stopPropagation();
+				$(".file_save:not(.disabled)").trigger("click");
+			}
+		})
 	}
 
 	$("#search").trigger("focus");

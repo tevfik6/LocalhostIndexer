@@ -1,3 +1,9 @@
+<?php
+	if (isset($_GET['save']) && $_GET['save'] == "true" ) {
+		require_once "save.php";
+		exit;
+	}
+?>
 <?php require_once "functions.php"; ?>
 <!DOCTYPE html>
 <html lang="en">

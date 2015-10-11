@@ -5,6 +5,7 @@ $file_info = pathinfo($file_path);
 $ace_editor_mode =  array_key_exists($file_info['extension'], $ace_editor['ext']) ? "ace/mode/".$ace_editor['ext'][$file_info['extension']] : false;
 ?>
 <script type="text/javascript">
+	var current_file_path = "<?php echo $file_path ?>";
 	var ace_editor_mode = <?php echo !$ace_editor_mode ?: '"'.$ace_editor_mode.'"' ?>;
 </script>
 <div class="main-container">
@@ -23,7 +24,7 @@ $ace_editor_mode =  array_key_exists($file_info['extension'], $ace_editor['ext']
 			</div>
 		</div>
 		<div class="btn-group" role="group" aria-label="Editor Tools">
-			<button type="button" class="btn btn-sm btn-success"><i class="fa fa-lg fa-floppy-o"></i> Save</button>
+			<button type="button" class="btn btn-sm btn-success file_save disabled"><i class="fa fa-lg fa-floppy-o"></i> Save</button>
 		</div>
 	</div>
 	<div id="editor"><?php echo htmlentities($file_content); ?></div>
