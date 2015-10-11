@@ -1,10 +1,15 @@
 $(function(){
-	$(".s_link").on('click', function (event) {
+	$(".browse_folder").on('click', function (event) {
 		var $a = $(this).parents("a");
 		$a.attr('href', '/?current_path='+$a.attr("href"));
 	});
 
-	//affix 
+	$(".go_to_editor").on('click', function (event) {
+		var $a = $(this).parents("a");
+		$a.attr('href', '/?current_path='+$a.attr("href")+'&editor=true');
+	});
+
+	//affix
 	$('.button-group-wrapper').on('affix.bs.affix', function () {
 		$('.main-container').css("margin-top", '110px');
 		$(".list-group-header").addClass("affix");
@@ -28,7 +33,7 @@ var localWorker = {
 		reverse: false,
 	},
 	support: function () {
-		return (typeof(Storage) !== "undefined"); 
+		return (typeof(Storage) !== "undefined");
 	},
 	get: function (itemKey) {
 		var itemValue = this.defaults[itemKey];
@@ -93,7 +98,7 @@ var vueObj = new Vue({
 	},
 	methods: {
 		sortKeyActive: function (sortKey) {
-			return sortKey == this.sortKey; 
+			return sortKey == this.sortKey;
 		},
 
 		sortBy: function (sortKey, e) {
@@ -106,7 +111,7 @@ var vueObj = new Vue({
 		},
 		anySugarInstances: function () {
 			for (var i = 0; i <= this.filesfolders.length - 1; i++) {
-				if ( this.filesfolders[i].sugar ) 
+				if ( this.filesfolders[i].sugar )
 					return true;
 			};
 			if(localWorker.get("sortKey") == 'sugar_sort_version'){
