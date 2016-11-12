@@ -1,5 +1,3 @@
-
-
 <div class="button-group-wrapper" data-spy="affix" data-offset-top="66">
 	<div class="col-xs-6">
 		<div class="input-group">
@@ -41,8 +39,7 @@
 			<span class="file_folder_mtime">&nbsp;</span>
 		</div>
 	</a>
-	<!-- <a v-for="(filefolder, index) in filesfolders | filterBy searchKeyword in 'name' 'perm.formated' 'mtime.formated' 'sugar.version' 'sugar.flavor' | orderBy sortKey reverse" href="{{ is_dir && !has_index_php || name == '..' ? '/?current_path='+relative_path : relative_path | getLink  }}" class="list-group-item hide" v-class="{'hide': false}" tabindex="{{ index+1 }}"> -->
-	<a v-for="(filefolder, index) in filteredFilesFolders" :href=" filefolder.is_dir && !filefolder.has_index_php || filefolder.name == '..' ? '/?current_path='+filefolder.relative_path : filefolder.relative_path" class="list-group-item" v-cloak :tabindex="index+1">
+	<a v-for="(filefolder, index) in filteredFilesFolders" :href="filefolder.is_dir && !filefolder.has_index_php || filefolder.name == '..' ? getLink('/?current_path='+filefolder.relative_path) : filefolder.relative_path" class="list-group-item" v-cloak :tabindex="index+1">
 		<span v-if="filefolder.name == '..'" class="glyphicon fa fa-level-up fa-lg" aria-hidden="true" style="margin-left:5px;"></span>
 		<img  v-if="filefolder.sugar && filefolder.name != '..'" class="sugar_logo" src="assets/img/sugar_logo.svg">
 		<span v-if="filefolder.is_dir && filefolder.name != '..' && !filefolder.sugar" class="glyphicon fa fa-folder fa-lg" aria-hidden="true"></span>

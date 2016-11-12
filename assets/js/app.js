@@ -1,12 +1,12 @@
 $(function(){
-	$(".browse_folder").on('click', function (event) {
+	$(document).delegate(".browse_folder", 'click', function (event) {
 		var $a = $(this).parents("a");
 		$a.attr('href', '/?current_path='+$a.attr("href"));
 	});
 
-	$(".go_to_editor").on('click', function (event) {
-		var $a = $(this).parents("a");
-		$a.attr('href', '/?current_path='+$a.attr("href")+'&editor=true');
+	$(document).delegate(".go_to_editor", 'click', function (event) {
+		var $a = $(this).parents("a").first();
+		$a.attr('href', '/?current_path='+ $a.attr("href") +'&editor=true');
 	});
 
 	//affix
