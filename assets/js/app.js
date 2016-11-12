@@ -135,28 +135,28 @@ var localWorker = {
 		return localStorage.getItem(itemKey) !== null;
 	}
 };
-
 if ( fileFoldersData != '' ){
+	Vue.config.devtools = true;
 	var vueObj = new Vue({
-		el: 'body',
+		el: '#vue-container',
 		data: {
 			sortKey: localWorker.get('sortKey'), //'name'
 			reverse: localWorker.get('reverse') == "false" ? false : true, //false
 			searchKeyword: '',
-			levelUp: false,
+			levelUps: [],
 			filesfolders: parsedData,
 		},
 		created: function () {
 			var self = this;
-			this.filesfolders.forEach(function (filefolder) {
+			this.filesfolders.forEach(function (filefolder, index) {
 				if(!filefolder.sugar)
 					filefolder.sugar_sort_version = 0;
 				else
 					filefolder.sugar_sort_version = self.getSugarVersionSortNum(filefolder.sugar.version);
+				
 				if(filefolder.name == ".."){
-					self.levelUp = [];
-					self.levelUp.push(filefolder);
-					self.filesfolders.$remove(filefolder);
+					self.levelUps.push(filefolder);
+				    self.filesfolders.splice(index, 1);
 				}
 			});
 		},
@@ -173,7 +173,53 @@ if ( fileFoldersData != '' ){
 				return relativePath;
 			}
 		},
+		computed: {
+			anySugarInstances: function(){
+				var returnValue = false;
+				for (var i = 0; i <= this.filesfolders.length - 1; i++) {
+					if ( this.filesfolders[i].sugar ){
+						returnValue = true;
+						break;
+					}
+				};
+				if(localWorker.get("sortKey") == 'sugar_sort_version'){
+					this.sortBy('name');
+				}
+				return returnValue;
+			},
+
+			filteredFilesFolders: function(){
+				var self = this;
+				var filteredFilesFolders = self.filesfolders.filter(function (filefolder) {
+					return (
+						filefolder.name.indexOf(self.searchKeyword) !== -1 ||
+						filefolder.perm.formated.indexOf(self.searchKeyword) !== -1 ||
+						filefolder.mtime.formated.indexOf(self.searchKeyword) !== -1 ||
+						(
+							filefolder.sugar != false && 
+							(
+								filefolder.sugar.version.indexOf(self.searchKeyword) !== -1 ||
+								filefolder.sugar.flavor.indexOf(self.searchKeyword) !== -1
+							)
+						)
+					);
+				});
+				return _.orderBy(filteredFilesFolders, self.sortKey, self.reverse ? 'desc' : 'asc');
+			},
+		},
 		methods: {
+			getLink: function (relativePath) {
+				var sliced = relativePath.split("/");
+				var last = sliced[sliced.length-1];
+				if(last == '..'){
+					sliced.pop();
+					sliced.pop();
+					relativePath = sliced.join("/");
+					relativePath = relativePath == "" ? '/' : relativePath;
+				}
+				return relativePath;
+			},
+
 			sortKeyActive: function (sortKey) {
 				return sortKey == this.sortKey;
 			},
@@ -186,16 +232,7 @@ if ( fileFoldersData != '' ){
 				localWorker.set("reverse", this.reverse);
 				localWorker.set("sortKey", this.sortKey);
 			},
-			anySugarInstances: function () {
-				for (var i = 0; i <= this.filesfolders.length - 1; i++) {
-					if ( this.filesfolders[i].sugar )
-						return true;
-				};
-				if(localWorker.get("sortKey") == 'sugar_sort_version'){
-					this.sortBy('name');
-				}
-				return false;
-			},
+
 			getSugarVersionSortNum: function (sugar_version) {
 				var splited = sugar_version.split(".");
 				for (var i = splited.length - 1; i >= 0; i--) {
