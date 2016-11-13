@@ -67,12 +67,12 @@ function getFilesFolders()
 	$date_format = $config['date_format'];
 
 	//updating with full path for comparison
-	foreach ($config['ignored_files'] as $key => $value) {
-		$config['ignored_files'][$key] = $root_folder.$value;
+	foreach ($config['ignored_paths'] as $key => $value) {
+		$config['ignored_paths'][$key] = $root_folder.$value;
 	}
 	foreach ($files_folders_iterator as $file_folder) {
-		$is_excluded_file_folder = ! in_array($file_folder->getPathname(), $config['ignored_files']);
-		if($is_excluded_file_folder && $file_folder->getFilename() != "." && ($current_path != "" || !$file_folder->isDot() ) ){
+		$is_excluded_file_folder = ! in_array($file_folder->getPathname(), $config['ignored_paths']);
+		if($is_excluded_file_folder && !in_array($file_folder->getFilename(), $config['ignored_files']) && $file_folder->getFilename() != "." && ($current_path != "" || !$file_folder->isDot() ) ){
 			$current_file_folder = array(
 				'is_dir' 			=> $file_folder->isDir(),
 				'is_dot' 			=> $file_folder->isDot(),
