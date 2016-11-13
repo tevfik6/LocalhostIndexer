@@ -54,6 +54,11 @@ function checkSugarVersionEdition($path){
 	return $returnValues;
 }
 
+function checkEditable($ext){
+	global $config;
+	return array_key_exists($ext, $config['ace']['extensions'])?:false;
+}
+
 function getFilesFolders()
 {
 	global $root_folder, $current_path, $config, $ace_editor;
@@ -96,7 +101,7 @@ function getFilesFolders()
 				),//inode change time
 				'sugar'				=> checkSugarVersionEdition($file_folder->getPathname()),
 				'has_index_php'		=> file_exists($file_folder->getPathname()."/index.php"),
-				'editable'			=> array_key_exists($file_folder->getExtension(), $config['ace']['extensions'])?:false,
+				'editable'			=> checkEditable($file_folder->getExtension()),
 			);
 			array_push($files_folders_container, $current_file_folder);
 		}
