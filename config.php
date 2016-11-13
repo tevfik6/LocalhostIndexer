@@ -1,11 +1,18 @@
 <?php
 return array(
-    // ignore files accept relative path
+    // ignore paths accept relative path
     // ie: 'relative/path/to/my/project'
     // or: 'relative/path/to/a/file.ext'
-    'ignored_files' => array(
+    'ignored_paths' => array(
         'index.php',
         'LocalhostIndexer',
+    ),
+
+    // ignore files in every directory 
+    // ie: single_file_name_without_path.ext
+    'ignored_files' => array(
+        '.DS_Store',
+        '.git',
     ),
 
     //file and folder list view date format

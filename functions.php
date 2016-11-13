@@ -54,6 +54,11 @@ function checkSugarVersionEdition($path){
 	return $returnValues;
 }
 
+function checkEditable($ext){
+	global $config;
+	return array_key_exists($ext, $config['ace']['extensions'])?:false;
+}
+
 function getFilesFolders()
 {
 	global $root_folder, $current_path, $config, $ace_editor;
@@ -62,12 +67,12 @@ function getFilesFolders()
 	$date_format = $config['date_format'];
 
 	//updating with full path for comparison
-	foreach ($config['ignored_files'] as $key => $value) {
-		$config['ignored_files'][$key] = $root_folder.$value;
+	foreach ($config['ignored_paths'] as $key => $value) {
+		$config['ignored_paths'][$key] = $root_folder.$value;
 	}
 	foreach ($files_folders_iterator as $file_folder) {
-		$is_excluded_file_folder = ! in_array($file_folder->getPathname(), $config['ignored_files']);
-		if($is_excluded_file_folder && $file_folder->getFilename() != "." && ($current_path != "" || !$file_folder->isDot() ) ){
+		$is_excluded_file_folder = ! in_array($file_folder->getPathname(), $config['ignored_paths']);
+		if($is_excluded_file_folder && !in_array($file_folder->getFilename(), $config['ignored_files']) && $file_folder->getFilename() != "." && ($current_path != "" || !$file_folder->isDot() ) ){
 			$current_file_folder = array(
 				'is_dir' 			=> $file_folder->isDir(),
 				'is_dot' 			=> $file_folder->isDot(),
@@ -96,7 +101,7 @@ function getFilesFolders()
 				),//inode change time
 				'sugar'				=> checkSugarVersionEdition($file_folder->getPathname()),
 				'has_index_php'		=> file_exists($file_folder->getPathname()."/index.php"),
-				'editable'			=> array_key_exists($file_folder->getExtension(), $config['ace']['extensions'])?:false,
+				'editable'			=> checkEditable($file_folder->getExtension()),
 			);
 			array_push($files_folders_container, $current_file_folder);
 		}
