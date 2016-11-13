@@ -30,13 +30,15 @@
 	<body>
 		<div class="container">
 			<?php require_once "breadcrumbs.php"; ?>
-			<?php
-				if(isset($_GET['editor'])){
-					require_once "editor.php";
-				}else{
-					require_once "body.php";
-				}
-			?>
+			<div id="vue-container">
+				<?php
+					if(isset($_GET['editor'])){
+						require_once "editor.php";
+					}else{
+						require_once "body.php";
+					}
+				?>
+			</div>
 		</div> <!-- /container -->
 		<!-- Bootstrap core JavaScript
 		================================================== -->
@@ -48,6 +50,7 @@
 
 		<script src="assets/js/jquery.min.js"></script>
 		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/lodash.js"></script>
 		<script src="assets/js/vue.min.js"></script>
 		<script src="assets/js/app.js"></script>
 	</body>
