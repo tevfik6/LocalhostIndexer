@@ -236,6 +236,14 @@ if ( fileFoldersData != '' ){
 			getSugarVersionSortNum: function (sugar_version) {
 				var splited = sugar_version.split(".");
 				for (var i = splited.length - 1; i >= 0; i--) {
+					if( parseInt(splited[i]) != splited[i]){
+						var parsedInt = parseInt(splited[i]);
+						var additional = 0;
+						splited[i].split('').forEach(function(el){
+							additional += ( el <= 9 && el != 0 ) ? parseInt(el) : 1;
+							splited[i] = parsedInt+additional;
+						});
+					}
 					if ( splited[i] <= 9 && i != 0 ) splited[i] = "0"+splited[i];
 				};
 				return splited.join('');
